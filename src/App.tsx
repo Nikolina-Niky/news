@@ -1,6 +1,6 @@
 import "./App.css";
 import PostPage from "./components/PostPage/PostPage";
-import { PostsProvider } from "./hooks/PostsContext";
+import { PostsProvider } from "./hooks/usePostsContext";
 
 function App() {
   return (

@@ -1,18 +1,21 @@
-import Post from "../Post/Post";
 import Posts from "../Posts/Posts";
-import "./postPage.css";
-import { usePostsContext } from "../../hooks/PostsContext";
+import "./PostPage.css";
+import { usePostsContext } from "../../hooks/usePostsContext";
 import Suspense from "../Supense/Suspense";
+import SinglePost from "../SinglePost/SinglePost";
 
 const PostPage = () => {
   // render first post initialy
-  const { posts, isPending } = usePostsContext();
+  const { posts, isPending, isPendingFrstPostId, firstPostId } = usePostsContext();
+  console.log(posts);
   return (
-    <div className="posts-container">
+    <div className="page-container">
       <Suspense isPending={isPending}>
         <Posts posts={posts} />
       </Suspense>
-      <Post post={posts[0]} isSinglePost />
+      <Suspense isPending={isPendingFrstPostId}>
+        <SinglePost postId={firstPostId} />
+      </Suspense>
     </div>
   );
 };

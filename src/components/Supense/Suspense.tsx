@@ -6,7 +6,7 @@ interface SuspeseProps {
 }
 
 const Suspense: FC<SuspeseProps> = ({ isPending, children }) => {
-  return <>{isPending ? <p>Pending...</p> : { children }}</>;
+  return <>{isPending ? <p>Pending...</p> : <>{ children }</>}</>;
 };
 
 export default Suspense;

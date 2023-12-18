@@ -1,4 +1,5 @@
 import { FC } from "react";
+import "./Card.css";
 
 interface CardProps {
   imageSrc: string | null;
@@ -15,9 +16,9 @@ const Card: FC<CardProps> = ({
   titleOnPicture = false,
 }) => {
   return (
-    <div>
+    <div className="card">
       {imageSrc ? (
-        <img src={imageSrc} width="500" height="600" />
+        <div><img className={titleOnPicture ? "small" : "big"} src={imageSrc} alt="post 1" /></div>
       ) : (
         <p> No image </p>
       )}
