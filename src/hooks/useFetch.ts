@@ -1,23 +1,22 @@
 import { useEffect, useState, useRef } from "react";
 
-export const useFetch = (callback: any, ...params: any) => {
+export const useFetch =<T, R>(callback: (args: R)=> Promise<T>, args: R)  => {
   const [isPending, setIsPending] = useState(true);
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<Awaited<T | []>>([]);
+
 
   interface RefProp {
-    [key: string]: any;
+    [key: string]:Awaited<T | []>;
   }
   const cache = useRef({} as RefProp);
-  debugger;
 
   useEffect(() => {
     let ignore = false;
-    let key = `${callback.name}-${JSON.stringify(params)}`;
+    let key = `${callback.name}-${JSON.stringify(args)}`;
     setIsPending(true);
     let getData = async () => {
       try {
-        debugger;
-        let fetchedData = await callback(...params);
+        let fetchedData = await callback(args);
         cache.current[key] = fetchedData;
         if (!ignore) {
           setData(fetchedData);
@@ -27,14 +26,12 @@ export const useFetch = (callback: any, ...params: any) => {
       }
       finally {
         setIsPending(false);
-        console.log(data);
       }
     };
     if (cache.current[key]) {
-      debugger;
       try {
-        const data = cache.current[key];
-        setData(data);
+        const cachedData = cache.current[key];
+        setData(cachedData);
       } finally {
         setIsPending(false);
       }
@@ -44,7 +41,7 @@ export const useFetch = (callback: any, ...params: any) => {
     return () => {
       ignore = true;
     }
-  }, [callback]);
+  }, [callback, args]);
 
   return { isPending, data };
 };

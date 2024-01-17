@@ -1,20 +1,21 @@
-import {FC} from "react";
+import { FC } from "react";
 import { useFetch } from "../../hooks/useFetch";
 import Suspense from "../Supense/Suspense";
 import Post from "../Post/Post";
-import { NewsClient } from "../../client";
+import { fetchDetail } from "../../apiService";
+import { useSelectedPostContext } from "../../hooks/useSelectedPostContext";
 import { NewsDetail } from "../../data";
 
 interface SinglePostProps {
-    postId: string;
+    selectedInitial: string
 }
-export const SinglePost:FC<SinglePostProps> = ({postId}) => {
-    console.log(postId);
-    const client = new NewsClient;
-    const {data:details, isPending} = useFetch(client.fetchDetail, postId);
+export const SinglePost: FC<SinglePostProps> = ({ selectedInitial }) => {
+    const { selectedPostId } = useSelectedPostContext();
+    const postId = selectedPostId ? selectedPostId : selectedInitial;
+    const { data: details, isPending } = useFetch(() => fetchDetail(postId), [postId]);
 
-return <Suspense isPending={isPending}>
-<Post post={details} isSinglePost />
-</Suspense>
+    return <Suspense isPending={isPending}>
+        <Post post={details  as NewsDetail} isSinglePost />
+    </Suspense>
 }
 export default SinglePost;

@@ -3,20 +3,23 @@ import "./PostPage.css";
 import { usePostsContext } from "../../hooks/usePostsContext";
 import Suspense from "../Supense/Suspense";
 import SinglePost from "../SinglePost/SinglePost";
+import { SelectedPostProvider } from "../../hooks/useSelectedPostContext";
 
 const PostPage = () => {
   // render first post initialy
-  const { posts, isPending, isPendingFrstPostId, firstPostId } = usePostsContext();
-  console.log(posts);
+  const { posts, isPending, firstPostId } = usePostsContext();
+
   return (
-    <div className="page-container">
-      <Suspense isPending={isPending}>
-        <Posts posts={posts} />
-      </Suspense>
-      <Suspense isPending={isPendingFrstPostId}>
-        <SinglePost postId={firstPostId} />
-      </Suspense>
-    </div>
+    <SelectedPostProvider>
+      <div className="page-container">
+        <Suspense isPending={isPending}>
+          <Posts posts={posts} />
+        </Suspense>
+        <Suspense isPending={isPending}>
+          <SinglePost selectedInitial={firstPostId} />
+        </Suspense>
+      </div>
+    </SelectedPostProvider>
   );
 };
 
