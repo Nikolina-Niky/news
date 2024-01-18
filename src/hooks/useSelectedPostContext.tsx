@@ -7,7 +7,7 @@ interface SelectedPostContextValue {
 
 const SelectedPostContext = createContext<SelectedPostContextValue>({
     selectedPostId: "",
-    setSelectedPostId: () => { }
+    setSelectedPostId: (s:React.SetStateAction<string>) => {}
 });
 
 interface SelectedPostProviderProps {

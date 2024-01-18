@@ -12,7 +12,7 @@ interface SinglePostProps {
 export const SinglePost: FC<SinglePostProps> = ({ selectedInitial }) => {
     const { selectedPostId } = useSelectedPostContext();
     const postId = selectedPostId ? selectedPostId : selectedInitial;
-    const { data: details, isPending } = useFetch(() => fetchDetail(postId), [postId]);
+    const { data: details, isPending } = useFetch(fetchDetail, postId);
 
     return <Suspense isPending={isPending}>
         <Post post={details  as NewsDetail} isSinglePost />

@@ -8,7 +8,7 @@ export const useFetch =<T, R>(callback: (args: R)=> Promise<T>, args: R)  => {
   interface RefProp {
     [key: string]:Awaited<T | []>;
   }
-  const cache = useRef({} as RefProp);
+  const cache = useRef<RefProp>({});
 
   useEffect(() => {
     let ignore = false;

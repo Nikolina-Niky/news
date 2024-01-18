@@ -12,10 +12,6 @@ const Post: FC<PostProps> = ({ post, isSinglePost }) => {
   const { id, image, date, title, content } = post;
   const { setSelectedPostId } = useSelectedPostContext();
 
-  const handlePostClick = (id: string) => {
-    setSelectedPostId(id);
-  }
-
   return (
     <Card
       id={id}
@@ -24,7 +20,7 @@ const Post: FC<PostProps> = ({ post, isSinglePost }) => {
       title={title}
       text={content}
       titleOnPicture={!isSinglePost}
-      onClick={() => handlePostClick(id)}
+      onClick={() => setSelectedPostId(id)}
     />
   );
 };

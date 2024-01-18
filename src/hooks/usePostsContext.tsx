@@ -33,7 +33,7 @@ export const PostsProvider: React.FC<PostsProviderProps> = ({ children }) => {
 export const usePostsContext = () => {
   const postsContext = useContext(PostsContext);
   if (!postsContext) {
-    throw new Error("context  PostsContext is not created");
+    throw new Error("context PostsContext is not created");
   }
   return postsContext;
 };

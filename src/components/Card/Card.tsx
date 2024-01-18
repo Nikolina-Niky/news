@@ -1,6 +1,7 @@
 import { SyntheticEvent, useState } from "react";
 import { FC } from "react";
 import "./Card.css";
+import { getFromLocalStorage, setLocalStorage } from "../../utils/localStorageFunctions";
 
 interface CardProps {
   id: string,
@@ -20,15 +21,9 @@ const Card: FC<CardProps> = ({
   onClick,
   titleOnPicture = false,
 }) => {
-  const getfromStorage = () => {
-    const item = localStorage.getItem(id);
-    if (item) {
-      return JSON.parse(item);
-    }
-    return false
-  }
 
-  const [isFavourite, setisFavourite] = useState(getfromStorage());
+  const fromLS = getFromLocalStorage(id); 
+  const [isFavourite, setisFavourite] = useState(fromLS || false);
   const notFavouriteSrc = "/static/heart.png";
   const favouriteSrc = "/static/favourite.png";
 
@@ -36,8 +31,8 @@ const Card: FC<CardProps> = ({
     e.stopPropagation();
     e.preventDefault();
     const state = !isFavourite;
+    setLocalStorage(id, state);
     setisFavourite(state);
-    localStorage.setItem(id, JSON.stringify(state));
   }
 
   return (
@@ -46,7 +41,7 @@ const Card: FC<CardProps> = ({
         <div className="image-container">
           <img className={titleOnPicture ? "small" : "big"} src={imageSrc} alt="post" />
           {titleOnPicture ? <h3 className="centered">{title}</h3> : <h3 className="top-left grey-text">{date}</h3>}
-          <div className="add-favourite"><img src={isFavourite ? favouriteSrc : notFavouriteSrc} onClick={handleAddToFavourites} /></div>
+          <div className="add-favourite"><img src={isFavourite ? favouriteSrc : notFavouriteSrc} alt= "" onClick={handleAddToFavourites} /></div>
         </div>
       ) : (
         <p> No image </p>
