@@ -1,12 +1,11 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 
-export const useFetch =<T, R>(callback: (args: R)=> Promise<T>, args: R)  => {
+export const useFetch =<T, R>(callback: (args:R)=> Promise<T>, args:R)  => {
   const [isPending, setIsPending] = useState(true);
-  const [data, setData] = useState<Awaited<T | []>>([]);
-
+  const [data, setData] = useState<Awaited<T>>();
 
   interface RefProp {
-    [key: string]:Awaited<T | []>;
+    [key: string]:Awaited<T>;
   }
   const cache = useRef<RefProp>({});
 

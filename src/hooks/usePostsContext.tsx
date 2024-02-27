@@ -4,7 +4,7 @@ import { useFetch } from "./useFetch";
 import { fetchList } from "../apiService";
 
 interface PostsContextValue {
-  posts: [] | NewsDetail[];
+  posts:NewsDetail[] | undefined;
   isPending: boolean;
   firstPostId: string;
 }
@@ -21,7 +21,7 @@ interface PostsProviderProps {
 
 export const PostsProvider: React.FC<PostsProviderProps> = ({ children }) => {
   const { data: posts, isPending } = useFetch(fetchList, []);
-  const firstPostId = posts.length ? posts[0].id : "";
+  const firstPostId = posts?.length ? posts[0].id : "";
 
   return (
     <PostsContext.Provider value={{ posts, isPending, firstPostId }}>
